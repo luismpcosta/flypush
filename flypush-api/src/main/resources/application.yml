@@ -1,0 +1,158 @@
+server:
+  port: ${SERVER_PORT:8765}
+  servlet.context-path: ${BASE_PATH:/}
+  tomcat:
+    max-threads: ${MAX_THREADS:4}
+    accept-count: ${ACCEPT_COUNT:256}
+
+  # Enable compression on HTTP level
+  # Reduce the amount of bytes transfer
+  compression:
+    enabled: true
+
+    # Enable compression to Json and hal+json ( Hypermedia ) requests
+    mime-types:
+      - application/json
+      - application/json;charset=UTF-8
+      - application/hal+json
+      - application/hal+json;charset=UTF-8
+
+      
+springdoc:
+  paths-to-match: /**
+#  paths-to-exclude: /api/token
+  
+spring:
+
+  #profile to run application
+  profiles: 
+    active: ${PROFILE:insecure}
+  
+  #
+  # Basic authentication configuration
+  # This configruation it's used if the application run with profile: insecure
+  # DO NOT RUN THIS IN PRODUCTION
+  #
+  security:
+    user:
+      name: ${APP_USER:admin}
+      password: "{noop}${APP_PASSWORD:admin}"
+
+      #
+      # Role cannot start with prefix ROLE_
+      # Spring will add it automatically
+      #
+      roles: ADMINISTRATOR
+
+  mail:
+    default-encoding: UTF-8
+    host: ${MAIL_SERVER_URL:smtp.gmail.com}
+    username: ${MAIL_SERVER_USERNAME:flypush.io@gmail.com}
+    password: ${MAIL_SERVER_PASSWORD:Aviao++007zaq}
+    port: ${MAIL_SERVER_PORT:587}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+  #
+  # JPA Configuration
+  #
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: false
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+        jdbc.lob.non_contextual_creation: true
+        default_schema: push
+    open-in-view: false
+  
+  #
+  # B2C Datasource configuration
+  #
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: ${PG_JDBC_URL:jdbc:postgresql://localhost:5432/flypush}
+    username: ${PG_USRNAME:postgres}
+    password: ${PG_PASSWORD:root}
+    hikari:
+      driverClassName: org.postgresql.Driver
+      connectionInitSql: SELECT 1
+      minimumIdle: 1
+      maximumPoolSize: 5
+      connectionTimeout: 60000 
+      idleTimeout: 600000 
+      maxLifetime: 1800000 
+      poolName: flypush-pool
+      autoCommit: false
+      schema: ${PG_SCHEMA:push}
+
+  main:
+    allow-bean-definition-overriding: true
+
+  #
+  # Flyway configurations
+  # Flyway can be tuned using the available properties.
+  # Check: https://flywaydb.org/documentation/configfiles
+  #
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+    #
+    # Disable clean action. If enable the Flyway removes all
+    # data and tables from target database
+    #
+    clean-disabled: true
+
+    #
+    # Target schema
+    #
+    schemas: push
+    #
+    # `classpath:db/migration` is the default.
+    # A folder in filesystem can be configured.
+    #
+    locations:
+      - classpath:db/migration
+
+#
+# Keycloak Security Configuration
+#
+keycloak:
+  realm: ${KEYCLOAK_REALM:push-realm}
+  auth-server-url: ${KEYCLOAK_HOST:http://localhost:8080/auth}
+  resource: ${KEYCLOAK_CLIENT_ID:push-client}
+  bearer-only: true
+  principal-attribute: preferred_username
+  cors: true
+  cors-allowed-headers: "*"
+  cors-allowed-methods: "*"
+  cors-max-age: 3600
+  
+management:
+  metrics:
+    export:
+      elastic:
+        auto-create-index: false
+  server:
+    port: ${ADMIN_HTTP_PORT:7654}
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /mgmt
+
+
+logging:
+  level:
+    org:
+      jooq:
+        tools: ${LOG_LEVEL:DEBUG}
+      springframework:
+        security: ${LOG_LEVEL:INFO}
+      arun: ${LOG_LEVEL:INFO}
+    root: ${LOG_LEVEL:INFO} 
+    

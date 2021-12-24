@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<configuration
+	xmlns="http://www.jooq.org/xsd/jooq-codegen-3.12.0.xsd">
+	<jdbc>
+		<url>jdbc:postgresql://localhost:5432/postgres</url>
+		<username>postgres</username>
+		<password>root</password>
+	</jdbc>
+
+	<!-- jOOQ generator configuration See: https://www.jooq.org/doc/3.12/manual/code-generation/codegen-configuration/ -->
+	<generator>
+
+		<strategy>
+
+			<matchers>
+				<tables>
+					<table>
+						<tableIdentifier>
+							<transform>UPPER</transform>
+							<expression>Engine_$0</expression>
+						</tableIdentifier>
+						<tableClass>
+							<transform>PASCAL</transform>
+							<expression>Engine_$0</expression>
+						</tableClass>
+					</table>
+				</tables>
+			</matchers>
+		</strategy>
+
+		<database>
+			<name>org.jooq.meta.postgres.PostgresDatabase</name>
+
+			<excludes>.*_([0-9]{1,}|aud)+</excludes>
+
+			<includes>.*</includes>
+
+			<inputSchema>generated</inputSchema>
+			<outputSchema>push</outputSchema>
+
+			<unsignedTypes>false</unsignedTypes>
+
+			<forcedTypes>
+
+				<!-- The order of the matcher matter jOOQ only applies the first one 
+					Force types should be configured from most to less specific TODO for the 
+					regexp heroes a custom regexp could be provided jOOQ runs the following code 
+					where: definition.getName() -> database column name definition.getQualifiedName() 
+					-> database column name with full path schema.table.column if ( !p.matcher(definition.getName()).matches() 
+					&& !p.matcher(definition.getQualifiedName()).matches()) { continue forcedTypeLoop; 
+					} -->
+
+				<forcedType>
+					<userType>java.time.Instant</userType>
+					<converter>io.opensw.flypush.api.database.jooq.OffsetInstantConverter</converter>
+					<includeExpression>.*</includeExpression>
+					<includeTypes>.*timestamptz*</includeTypes>
+				</forcedType>
+				
+				<forcedType>
+                    <userType>io.opensw.flypush.api.database.jooq.Jsonb</userType>
+                    <binding>io.opensw.flypush.api.database.jooq.JSONBBinding</binding>
+                    <includeExpression>.*</includeExpression>
+                    <includeTypes>.*JSONB*</includeTypes>
+                </forcedType>
+			</forcedTypes>
+		</database>
+
+
+		<target>
+			<packageName>io.opensw.flypush.api.database.generated</packageName>
+			<directory>src/main/java</directory>
+		</target>
+
+		<generate>
+			<fluentSetters>true</fluentSetters>
+			<records>true</records>
+			<javaTimeTypes>true</javaTimeTypes>
+
+			<interfaces>false</interfaces>
+			<pojos>false</pojos>
+			<daos>false</daos>
+			<emptySchemas>false</emptySchemas>
+			<relations>false</relations>
+			<implicitJoinPathsToOne>false</implicitJoinPathsToOne>
+
+			<pojosToString>false</pojosToString>
+			<pojosEqualsAndHashCode>false</pojosEqualsAndHashCode>
+		</generate>
+
+	</generator>
+</configuration>

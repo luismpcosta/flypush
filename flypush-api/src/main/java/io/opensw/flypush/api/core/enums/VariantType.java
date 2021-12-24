@@ -1,0 +1,11 @@
+package io.opensw.flypush.api.core.enums;
+
+public enum VariantType {
+	GOOGLE_FIREBASE,
+	GOOGLE_FIREBASE_LEGACY,
+	GOOGLE_CHROME_WEBPUSH,
+	MOZILLA_FIREFOX_WEBPUSH,
+	APPLE_APNS_TOKEN,
+	APPLE_CERTIFICATE
+
+}
