@@ -33,7 +33,7 @@ public class VariantEndpoints extends ApiAbstractEndpoint {
 	private final VariantModelAssembler variantModelAssembler;
 
 	@PostMapping( "/app/{app-id}/variant" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Create Application Variant Entry", description = "Endpoint to create a new application variant." )
 	public ResponseEntity< VariantModel > create( @PathVariable( value = "app-id" ) final Integer applicationId,
 			@RequestBody final VariantCommand command ) {
@@ -52,7 +52,7 @@ public class VariantEndpoints extends ApiAbstractEndpoint {
 //	}
 
 	@DeleteMapping( "/app/{app-id}/variant/{variant-id}" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Delete Application Variant Entry", description = "Endpoint to delete existing application variant." )
 	public ResponseEntity< Void > delete( @PathVariable( value = "app-id" ) final Integer applicationId,
 			@PathVariable( value = "variant-id" ) final Integer variantId ) {
@@ -64,7 +64,7 @@ public class VariantEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@GetMapping( "/app/{app-id}/variant/{variant-id}" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Load Application Variant Entry", description = "Endpoint to load existing application variant." )
 	public ResponseEntity< VariantModel > load( @PathVariable( value = "app-id" ) final Integer applicationId,
 			@PathVariable( value = "variant-id" ) final Integer variantId ) {
@@ -74,7 +74,7 @@ public class VariantEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@GetMapping( "/app/{app-id}/variant" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Load All Application Variant Entries",
 			description = "Endpoint to load all application variant entries paginated." )
 	public ResponseEntity< PagedModel< VariantModel > > loadAll( @PathVariable( value = "app-id" ) final Integer applicationId,

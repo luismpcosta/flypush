@@ -52,9 +52,12 @@ public class PreAuthorizeVariantAspect {
 		if ( requestAttributes == null ) {
 			throw new AccessDeniedException( "Variant authentication failed" );
 		}
-		HttpServletRequest request = ( (ServletRequestAttributes) requestAttributes ).getRequest();
+		
+		//get http servlet request
+		final HttpServletRequest request = ( (ServletRequestAttributes) requestAttributes ).getRequest();
+		
 		//load basic auth from request headers
-		BasicAuth basicAuth = HeaderUtils.loadBasicAuth( request );
+		final BasicAuth basicAuth = HeaderUtils.loadBasicAuth( request );
 
 		if ( basicAuth == null ||
 				!variantRepository.validateKeyAndSecret( basicAuth.getUsername(), basicAuth.getPassword() ) ) {

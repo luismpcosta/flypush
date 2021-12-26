@@ -32,13 +32,13 @@ public class SenderService {
 	public void send( final BasicAuth auth, final MessageCommand command ) {
 		log.debug( "Service to Send Messages to Specific App {} with command {}", auth, command );
 
-		Integer appId = appRepository.loadAppId( auth.getUsername(), auth.getPassword() );
+		final Integer appId = appRepository.loadAppId( auth.getUsername(), auth.getPassword() );
 		// if variant not found return exception
 		if ( appId == null || appId == 0 ) {
 			throw new PreconditionException( "Application not found!", ErrorCodesProblems.APP_NOT_FOUND_EXCEPTION );
 		}
 
-		List< VariantMinimal > variants = variantRepository.loadVariantMinimalByApp( appId );
+		final List< VariantMinimal > variants = variantRepository.loadVariantMinimalByApp( appId );
 		for ( VariantMinimal variant : variants ) {
 			switch ( variant.getType() ) {
 			case GOOGLE_FIREBASE:

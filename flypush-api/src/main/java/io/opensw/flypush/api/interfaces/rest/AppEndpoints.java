@@ -34,7 +34,7 @@ public class AppEndpoints extends ApiAbstractEndpoint {
 	private final AppModelAssembler appModelAssembler;
 
 	@PostMapping( "/app" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Create Application Entry", description = "Endpoint to create a new application." )
 	public ResponseEntity< AppModel > create( @RequestBody final AppCommand command ) {
 		log.debug( "Create Application with command {}", command );
@@ -43,7 +43,7 @@ public class AppEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@PutMapping( "/app/{app-id}" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Update Application Entry", description = "Endpoint to update existing application." )
 	public ResponseEntity< AppModel > update( @PathVariable( value = "app-id" ) Integer applicationId,
 			@RequestBody final AppCommand command ) {
@@ -53,7 +53,7 @@ public class AppEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@PutMapping( "/app/{app-id}/logo" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Update Application Logo Entry", description = "Endpoint to update logo of existing application." )
 	public ResponseEntity< AppModel > updateLogo( @PathVariable( value = "app-id" ) Integer applicationId,
 			@RequestBody final String logo ) {
@@ -65,7 +65,7 @@ public class AppEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@DeleteMapping( "/app/{app-id}" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Delete Application Entry", description = "Endpoint to delete existing application." )
 	public ResponseEntity< AppModel > delete( @PathVariable( value = "app-id" ) Integer applicationId ) {
 		log.debug( "Delete Application {}", applicationId );
@@ -76,7 +76,7 @@ public class AppEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@GetMapping( "/app/{app-id}" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Load Application Entry", description = "Endpoint to load existing application." )
 	public ResponseEntity< AppModel > load( @PathVariable( value = "app-id" ) Integer applicationId ) {
 		log.debug( "Load Application {}", applicationId );
@@ -85,7 +85,7 @@ public class AppEndpoints extends ApiAbstractEndpoint {
 	}
 
 	@GetMapping( "/app" )
-	@PreAuthorize( "hasAnyAuthority( 'ADMINISTRATOR' )" )
+	@PreAuthorize( "hasAnyAuthority( 'FLYPUSH_ADMIN' )" )
 	@Operation( summary = "Load All Application Entries", description = "Endpoint to load all application entries paginated." )
 	public ResponseEntity< PagedModel< AppModel > > loadAll( final Pageable page ) {
 		log.debug( "Load all application entries paginated {}", page );

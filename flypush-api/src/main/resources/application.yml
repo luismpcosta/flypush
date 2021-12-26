@@ -26,7 +26,8 @@ spring:
 
   #profile to run application
   profiles: 
-    active: ${PROFILE:insecure}
+    active: ${PROFILE:secure}
+    #active: ${PROFILE:insecure}
   
   #
   # Basic authentication configuration
@@ -42,7 +43,7 @@ spring:
       # Role cannot start with prefix ROLE_
       # Spring will add it automatically
       #
-      roles: ADMINISTRATOR
+      roles: FLYPUSH_ADMIN
 
   mail:
     default-encoding: UTF-8
@@ -76,7 +77,7 @@ spring:
   #
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: ${PG_JDBC_URL:jdbc:postgresql://localhost:5432/flypush}
+    url: ${PG_JDBC_URL:jdbc:postgresql://localhost:5433/flypush}
     username: ${PG_USRNAME:postgres}
     password: ${PG_PASSWORD:root}
     hikari:
@@ -122,9 +123,9 @@ spring:
 # Keycloak Security Configuration
 #
 keycloak:
-  realm: ${KEYCLOAK_REALM:push-realm}
-  auth-server-url: ${KEYCLOAK_HOST:http://localhost:8080/auth}
-  resource: ${KEYCLOAK_CLIENT_ID:push-client}
+  realm: ${KEYCLOAK_REALM:flypush-realm}
+  auth-server-url: ${KEYCLOAK_HOST:http://localhost:8180/auth}
+  resource: ${KEYCLOAK_CLIENT_ID:flypush}
   bearer-only: true
   principal-attribute: preferred_username
   cors: true

@@ -111,18 +111,6 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 	}
 
 	/**
-	 * Keycloak pre auth actions filter registration bean.
-	 *
-	 * @return the filter registration bean
-	 */
-	@Bean
-	public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean() {
-		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-		registrationBean.setEnabled( false );
-		return registrationBean;
-	}
-
-	/**
 	 * Keycloak authenticated actions filter bean.
 	 *
 	 * @param filter the filter
